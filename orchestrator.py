@@ -63,9 +63,11 @@ class PulseOrchestrator:
                 available_tools = [p.strip("/") for p in api_res.json().get("paths", {}).keys() if p != "/"]
                 
             def get_endpoint(candidates):
+                if not available_tools:
+                    return candidates[0] if candidates else None
                 for c in candidates:
                     if c in available_tools: return c
-                return candidates[0] if candidates else None
+                return None
 
             is_dry_run = os.getenv("DRY_RUN", "false").lower() == "true"
             
@@ -80,11 +82,13 @@ class PulseOrchestrator:
                 
                 if test_email:
                     logger.info(f"Sending email to: {test_email}")
-                    send_tool = get_endpoint(["send_email", "send_mail", "gmail_send"])
+                    send_tool = get_endpoint(["send_email", "send_mail", "gmail_send", "send_email_draft", "create_email_draft", "create_draft"])
                     email_args = {"to": test_email, "subject": email_subject, "html_body": email_html, "text_body": email_text, "idempotency_key": f"{product}-{iso_week}-email"}
                     if send_tool:
                         await mcp_client.call_tool("fastapi-server", send_tool, email_args)
                         deliveries.append(DeliveryRecord(channel="gmail", external_id="sent", idempotency_key=email_args["idempotency_key"]))
+                    else:
+                        logger.warning(f"No suitable email endpoint found among available tools: {available_tools}. Skipping email delivery.")
                     
                 status = "completed"
                 logger.info("🎉 Pipeline MCP execution successful!")
