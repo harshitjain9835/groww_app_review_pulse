@@ -9,13 +9,13 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from mcp_client import PulseMCPClient
-from pulse.ledger.store import RunLedger
-from pulse.ledger.models import RunRecord, DeliveryRecord
+from store import RunLedger
+from models import RunRecord, DeliveryRecord
 
 logger = logging.getLogger(__name__)
 
 class PulseOrchestrator:
-    def __init__(self, ledger_db_path="g:\\project 3\\data\\ledger.db"):
+    def __init__(self, ledger_db_path="data/ledger.db"):
         self.ledger = RunLedger(ledger_db_path)
 
     async def run_pipeline(self, product: str, iso_week: str, test_doc_id: str, test_email: str):
@@ -36,13 +36,13 @@ class PulseOrchestrator:
         # Output Generation
         logger.info("Mocking Phase 6: Output renderers (Loading from local JSONs)...")
         doc_text = "Generated Report Section...\n"
-        doc_json = "g:\\project 3\\doc_section.json"
+        doc_json = "doc_section.json"
         if os.path.exists(doc_json):
             with open(doc_json, "r", encoding="utf-8") as f:
                 doc_text = json.load(f).get("text", doc_text)
                 
         email_subject, email_html, email_text = f"{product} Pulse", "", ""
-        email_json = "g:\\project 3\\email_section.json"
+        email_json = "email_section.json"
         if os.path.exists(email_json):
             with open(email_json, "r", encoding="utf-8") as f:
                 em = json.load(f)
