@@ -75,7 +75,7 @@ async def verify_gmail_mcp():
 
             # 2. Test Create Draft
             test_args = {
-                "to": test_email,
+                "to": [e.strip() for e in test_email.split(",") if e.strip()],
                 "subject": subject,
                 "html_body": html_body,
                 "text_body": text_body,
