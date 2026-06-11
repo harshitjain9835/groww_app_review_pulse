@@ -1,0 +1,15 @@
+# Pipeline Default Settings
+
+normalization:
+  require_english: true
+  remove_emojis: true
+  min_word_count: 8
+
+clustering:
+  umap_n_neighbors: 15
+  umap_n_components: 5
+  hdbscan_min_cluster_size: 5
+
+llm:
+  model: "llama-3.3-70b-versatile"
+  tpm_limit: 12000

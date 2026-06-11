@@ -1,0 +1,72 @@
+[
+  {
+    "id": "rev_2023_W43",
+    "userId": "user_43",
+    "rating": 5,
+    "comment": "Excellent product, highly recommend! (Week 2023-W43)",
+    "createdAt": "2023-10-25T10:00:00Z"
+  },
+  {
+    "id": "rev_2023_W42",
+    "userId": "user_42",
+    "rating": 4,
+    "comment": "Very good, but the process was a bit slow. (Week 2023-W42)",
+    "createdAt": "2023-10-18T14:30:00Z"
+  },
+  {
+    "id": "rev_2023_W41",
+    "userId": "user_41",
+    "rating": 5,
+    "comment": "Great quality and fast shipping! (Week 2023-W41)",
+    "createdAt": "2023-10-11T09:15:00Z"
+  },
+  {
+    "id": "rev_2023_W40",
+    "userId": "user_40",
+    "rating": 3,
+    "comment": "It's okay, could be improved. (Week 2023-W40)",
+    "createdAt": "2023-10-04T16:45:00Z"
+  },
+  {
+    "id": "rev_2023_W39",
+    "userId": "user_39",
+    "rating": 5,
+    "comment": "Absolutely love it! Will buy again. (Week 2023-W39)",
+    "createdAt": "2023-09-27T11:20:00Z"
+  },
+  {
+    "id": "rev_2023_W38",
+    "userId": "user_38",
+    "rating": 4,
+    "comment": "Solid performance, reasonable price. (Week 2023-W38)",
+    "createdAt": "2023-09-20T13:10:00Z"
+  },
+  {
+    "id": "rev_2023_W37",
+    "userId": "user_37",
+    "rating": 5,
+    "comment": "Exceeds my expectations. (Week 2023-W37)",
+    "createdAt": "2023-09-13T08:05:00Z"
+  },
+  {
+    "id": "rev_2023_W36",
+    "userId": "user_36",
+    "rating": 2,
+    "comment": "Not what I expected. (Week 2023-W36)",
+    "createdAt": "2023-09-06T18:30:00Z"
+  },
+  {
+    "id": "rev_2023_W35",
+    "userId": "user_35",
+    "rating": 4,
+    "comment": "Customer service was very helpful. (Week 2023-W35)",
+    "createdAt": "2023-08-30T10:50:00Z"
+  },
+  {
+    "id": "rev_2023_W34",
+    "userId": "user_34",
+    "rating": 5,
+    "comment": "The best purchase I've made this year. (Week 2023-W34)",
+    "createdAt": "2023-08-23T15:00:00Z"
+  }
+]
