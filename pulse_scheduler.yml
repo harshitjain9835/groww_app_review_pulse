@@ -1,0 +1,48 @@
+name: Weekly Review Pulse Scheduler
+
+on:
+  schedule:
+    # Run at 03:30 UTC every Monday (09:00 AM IST)
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+    inputs:
+      product:
+        description: 'Target Product'
+        required: true
+        default: 'groww'
+      iso_week:
+        description: 'ISO Week (e.g. 2026-W23, leave blank for current)'
+        required: false
+
+jobs:
+  run-pulse:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Pulse Pipeline
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TEST_DOC_ID: ${{ secrets.TEST_DOC_ID }}
+          TEST_EMAIL_RECIPIENT: ${{ secrets.TEST_EMAIL_RECIPIENT }}
+          MCP_API_KEY: ${{ secrets.MCP_API_KEY }}
+          FASTAPI_SERVER_URL: ${{ secrets.FASTAPI_SERVER_URL }}
+        run: |
+          if [ -z "${{ github.event.inputs.iso_week }}" ]; then
+            python cli.py run --product ${{ github.event.inputs.product || 'groww' }}
+          else
+            python cli.py run --product ${{ github.event.inputs.product }} --iso-week ${{ github.event.inputs.iso_week }}
+          fi
