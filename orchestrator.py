@@ -83,7 +83,8 @@ class PulseOrchestrator:
                 if test_email:
                     logger.info(f"Sending email to: {test_email}")
                     send_tool = get_endpoint(["send_email", "send_mail", "gmail_send", "send_email_draft", "create_email_draft", "create_draft"])
-                    email_args = {"to": test_email, "subject": email_subject, "html_body": email_html, "text_body": email_text, "idempotency_key": f"{product}-{iso_week}-email"}
+                    recipients = [e.strip() for e in test_email.split(",") if e.strip()]
+                    email_args = {"to": recipients, "subject": email_subject, "html_body": email_html, "text_body": email_text, "idempotency_key": f"{product}-{iso_week}-email"}
                     if send_tool:
                         await mcp_client.call_tool("fastapi-server", send_tool, email_args)
                         deliveries.append(DeliveryRecord(channel="gmail", external_id="sent", idempotency_key=email_args["idempotency_key"]))
