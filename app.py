@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 import os
 import json
+import sys
 import subprocess
 from datetime import datetime
 
@@ -49,7 +50,7 @@ with tab1:
         
         if submitted:
             cmd_mode = "dry-run" if dry_run else "run"
-            cmd = ["python", "cli.py", cmd_mode, "--product", product, "--iso-week", iso_week]
+            cmd = [sys.executable, "cli.py", cmd_mode, "--product", product, "--iso-week", iso_week]
             
             with st.spinner(f"Executing: {' '.join(cmd)} ..."):
                 try:
