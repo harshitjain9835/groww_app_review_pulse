@@ -9,9 +9,9 @@ from dotenv import load_dotenv
 
 # Setup paths
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pulse.agent.orchestrator import PulseOrchestrator
+from orchestrator import PulseOrchestrator
 
-load_dotenv(dotenv_path="g:\\project 3\\.env")
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -67,7 +67,7 @@ def main():
             logger.info(f"\n--- Backfilling Week {week} ---")
             asyncio.run(run_pipeline(args.product, week))
     elif args.command == "status":
-        db_path = "g:\\project 3\\data\\ledger.db"
+        db_path = "data/ledger.db"
         if os.path.exists(db_path):
             with sqlite3.connect(db_path) as conn:
                 for row in conn.execute("SELECT iso_week, status, run_id, started_at FROM runs WHERE product=? ORDER BY started_at DESC LIMIT 20", (args.product,)):
