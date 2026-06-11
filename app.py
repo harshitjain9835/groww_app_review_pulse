@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 
 # Set up absolute paths so app can find core agent logic
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from pulse.agent.orchestrator import PulseOrchestrator
+from orchestrator import PulseOrchestrator
 
-load_dotenv(dotenv_path="g:\\project 3\\.env")
+load_dotenv()
 
 st.set_page_config(page_title="Review Pulse Dashboard", layout="wide")
 
@@ -47,7 +47,7 @@ with tab1:
 
 with tab2:
     st.header("Run Ledger Database")
-    db_path = "g:\\project 3\\data\\ledger.db"
+    db_path = "data/ledger.db"
     if os.path.exists(db_path):
         conn = sqlite3.connect(db_path)
         df_runs = pd.read_sql_query(f"SELECT run_id, product, iso_week, status, review_count, started_at FROM runs WHERE product='{product}' ORDER BY started_at DESC", conn)
@@ -66,13 +66,13 @@ with tab3:
     
     with col1:
         st.subheader("Google Doc Appended Content")
-        if os.path.exists("g:\\project 3\\doc_section.json"):
-            doc_data = json.load(open("g:\\project 3\\doc_section.json", "r", encoding="utf-8"))
+        if os.path.exists("doc_section.json"):
+            doc_data = json.load(open("doc_section.json", "r", encoding="utf-8"))
             st.text_area("Plain Text Generated:", doc_data.get("text", ""), height=400)
             
     with col2:
         st.subheader("Generated Email HTML")
-        if os.path.exists("g:\\project 3\\email_section.json"):
-            em_data = json.load(open("g:\\project 3\\email_section.json", "r", encoding="utf-8"))
+        if os.path.exists("email_section.json"):
+            em_data = json.load(open("email_section.json", "r", encoding="utf-8"))
             st.text_input("Subject Line:", em_data.get("subject", ""))
             st.components.v1.html(em_data.get("html_body", ""), height=350, scrolling=True)
