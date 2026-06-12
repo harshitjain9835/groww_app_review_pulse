@@ -30,7 +30,7 @@ with st.sidebar:
 # --- Main App ---
 st.title("📈 Groww Weekly Review Pulse")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Weekly Dashboard", "📉 Trend Analysis", " Trigger Run", "📊 Run History", "📄 Artifacts Preview"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Weekly Dashboard", "📉 Trend Analysis", "🔍 Platform Deep Dive", "🚀 Trigger Run", "📊 Run History"])
 
 # --- TAB 1: Weekly Dashboard ---
 with tab1:
@@ -62,8 +62,25 @@ with tab2:
     st.markdown("**Review Volume by Rating Category**")
     st.line_chart(trend_data, color=["#ff4b4b", "#00d09c"])
 
-# --- TAB 3: Trigger Run ---
+# --- TAB 3: Platform Deep Dive ---
 with tab3:
+    st.subheader("Platform Deep Dive: Android vs iOS")
+    st.markdown("Compare review sentiments and themes across different platforms.")
+    
+    col_android, col_ios = st.columns(2)
+    with col_android:
+        st.markdown("### 🤖 Android (Play Store)")
+        st.metric("Avg Rating", "4.2", "+0.1", delta_color="normal")
+        st.progress(65, text="App Performance & Bugs (65%)")
+        st.progress(25, text="Customer Support (25%)")
+    with col_ios:
+        st.markdown("### 🍏 iOS (App Store)")
+        st.metric("Avg Rating", "4.5", "-0.1", delta_color="inverse")
+        st.progress(40, text="App Performance & Bugs (40%)")
+        st.progress(45, text="UX & Feature Gaps (45%)")
+
+# --- TAB 4: Trigger Run ---
+with tab4:
     st.subheader("Trigger Manual Run")
     st.markdown("Run the extraction, clustering, summarization, and MCP delivery pipeline.")
     
@@ -96,8 +113,8 @@ with tab3:
                 except Exception as e:
                     st.error(f"Failed to trigger script: {e}")
 
-# --- TAB 4: Ledger History ---
-with tab4:
+# --- TAB 5: Ledger History ---
+with tab5:
     st.subheader("Pipeline Ledger (Runs & Deliveries)")
     if os.path.exists(LEDGER_DB_PATH):
         with sqlite3.connect(LEDGER_DB_PATH) as conn:
@@ -110,20 +127,3 @@ with tab4:
             st.dataframe(deliveries_df, use_container_width=True, hide_index=True)
     else:
         st.warning("Ledger database not found. Please run the pipeline first to generate history.")
-
-# --- TAB 5: Artifacts Preview ---
-with tab5:
-    st.subheader("Latest Generated Output")
-    col_doc, col_email = st.columns(2)
-    
-    with col_doc:
-        st.markdown("### 📝 Google Doc Section")
-        if os.path.exists(DOC_ARTIFACT):
-            with open(DOC_ARTIFACT, "r", encoding="utf-8") as f:
-                st.text_area("Markdown Preview", json.load(f).get("text", ""), height=400)
-                
-    with col_email:
-        st.markdown("### 📧 Email Teaser")
-        if os.path.exists(EMAIL_ARTIFACT):
-            with open(EMAIL_ARTIFACT, "r", encoding="utf-8") as f:
-                st.json(json.load(f))
